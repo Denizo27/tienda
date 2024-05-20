@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="alumno">
+        <input type="text" id="nombre" placeholder="INSERTA EL NOMBRE DEL ESTUDIANTE">
+        <input type="text" id="apellido" placeholder="INSERTAR EL APELLIDO DEL ESTUDIANTE">
+        <button type="submit">Agregar</button>
+    </form>
+    <script>
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import {getFirestore,collection,addDoc,onSnapshot,deleteDoc,doc,getDocs,query, updateDoc, where} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQmJItqEIujzTUdqHAyZNbx1UWULiqHls",
+            authDomain: "estudiantes-cbd47.firebaseapp.com",
+            projectId: "estudiantes-cbd47",
+            storageBucket: "estudiantes-cbd47.appspot.com",
+            messagingSenderId: "657399487403",
+            appId: "1:657399487403:web:51b44e1da5dc21ccd6d0ee"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Ingreso de Datos
+
+        //Variable constante
+
+        const alumfor = document.getElementById("alumno");
+        alumfor.addEventListener("submit",async(e)=>{
+            e.preventDefault();
+            await addDoc(collection(db,"Ingreso"),{
+                apellido: alumfor.apellido.value,
+                nombre: alumfor.nombre.value
+            });
+    
+            //Limpiar campos
+    
+            alumfor.reset();
+        });
+
+
+    </script>
+    
+</body>
+</html>
