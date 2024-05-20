@@ -20,11 +20,28 @@
         <button type="submit">Agregar</button>
     </form>
     <div id="alumnos-list"></div>
+    
+    <!-- Formulario de actualización -->
+    <form id="update-alumno" style="display: none;">
+        <input type="hidden" id="update-id">
+        <input type="text" id="update-nombre" placeholder="NOMBRE">
+        <input type="text" id="update-apellido" placeholder="APELLIDO">
+        <input type="text" id="update-edad" placeholder="EDAD">
+        <input type="text" id="update-telefono" placeholder="TELEFONO">
+        <input type="text" id="update-email" placeholder="EMAIL">
+        <input type="text" id="update-direccion" placeholder="DIRECCION">
+        <input type="text" id="update-prenda" placeholder="PRENDA">
+        <input type="text" id="update-talla" placeholder="TALLA">
+        <input type="text" id="update-cedula" placeholder="CEDULA">
+        <input type="text" id="update-comentario" placeholder="COMENTARIO">
+        <button type="submit">Actualizar</button>
+        <button type="button" onclick="cancelUpdate()">Cancelar</button>
+    </form>
 
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -79,6 +96,7 @@
                         <p>Cédula: ${alumno.cedula}</p>
                         <p>Comentario: ${alumno.comentario}</p>
                         <button onclick="deleteAlumno('${doc.id}')">Eliminar</button>
+                        <button onclick="showUpdateForm('${doc.id}', '${alumno.nombre}', '${alumno.apellido}', '${alumno.edad}', '${alumno.telefono}', '${alumno.email}', '${alumno.direccion}', '${alumno.prenda}', '${alumno.talla}', '${alumno.cedula}', '${alumno.comentario}')">Actualizar</button>
                         <hr>
                     `;
                     alumnosList.appendChild(div);
@@ -92,6 +110,50 @@
         // Function to delete an alumno
         window.deleteAlumno = async (id) => {
             await deleteDoc(doc(db, "Ingreso", id));
+        };
+
+        // Function to show update form
+        window.showUpdateForm = (id, nombre, apellido, edad, telefono, email, direccion, prenda, talla, cedula, comentario) => {
+            document.getElementById("update-id").value = id;
+            document.getElementById("update-nombre").value = nombre;
+            document.getElementById("update-apellido").value = apellido;
+            document.getElementById("update-edad").value = edad;
+            document.getElementById("update-telefono").value = telefono;
+            document.getElementById("update-email").value = email;
+            document.getElementById("update-direccion").value = direccion;
+            document.getElementById("update-prenda").value = prenda;
+            document.getElementById("update-talla").value = talla;
+            document.getElementById("update-cedula").value = cedula;
+            document.getElementById("update-comentario").value = comentario;
+            document.getElementById("update-alumno").style.display = "block";
+        };
+
+        // Function to update an alumno
+        const updateForm = document.getElementById("update-alumno");
+        updateForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const id = document.getElementById("update-id").value;
+            const alumnoRef = doc(db, "Ingreso", id);
+            await updateDoc(alumnoRef, {
+                nombre: document.getElementById("update-nombre").value,
+                apellido: document.getElementById("update-apellido").value,
+                edad: document.getElementById("update-edad").value,
+                telefono: document.getElementById("update-telefono").value,
+                email: document.getElementById("update-email").value,
+                direccion: document.getElementById("update-direccion").value,
+                prenda: document.getElementById("update-prenda").value,
+                talla: document.getElementById("update-talla").value,
+                cedula: document.getElementById("update-cedula").value,
+                comentario: document.getElementById("update-comentario").value
+            });
+            updateForm.reset();
+            updateForm.style.display = "none";
+        });
+
+        // Function to cancel update
+        window.cancelUpdate = () => {
+            updateForm.reset();
+            updateForm.style.display = "none";
         };
     </script>
 </body>
