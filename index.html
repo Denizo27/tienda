@@ -7,8 +7,16 @@
 </head>
 <body>
     <form id="alumno">
-        <input type="text" id="nombre" placeholder="INSERTA EL NOMBRE DEL ESTUDIANTE">
-        <input type="text" id="apellido" placeholder="INSERTAR EL APELLIDO DEL ESTUDIANTE">
+        <input type="text" id="nombre" placeholder="INGRESA TU NOMBRE">
+        <input type="text" id="apellido" placeholder="INGRESA TU APELLIDO">
+        <input type="text" id="edad" placeholder="INGRESA TU EDAD">
+        <input type="text" id="telefono" placeholder="INGRESA SU TELEFONO">
+        <input type="text" id="email" placeholder="INGRESA TU CORREO ELECTRONICO">
+        <input type="text" id="direccion" placeholder="INGRESAR TU DIRECCION">
+        <input type="text" id="prenda" placeholder="INGRESAR EL TIPO DE PRENDA">
+        <input type="text" id="talla" placeholder="INGRESA LA TALLA">
+        <input type="text" id="cedula" placeholder="INGRESA TU CEDULA">
+        <input type="text" id="comentario" placeholder="PON TU COMENTARIO">
         <button type="submit">Agregar</button>
     </form>
     <script type="module">
@@ -38,6 +46,15 @@
         await addDoc(collection(db, "Ingreso"), {
           nombre: alumnform.nombre.value,
           apellido: alumnform.apellido.value,
+          edad: alumnform.edad.value,
+          telefono: alumnform.telefono.value,
+          email: alumnform.email.value,
+          direccion: alumnform.direccion.value,
+          prenda: alumnform.prenda.value,
+          talla: alumnform.talla.value,
+          cedula: alumnform.cedula.value,
+          comentario: alumnform.comentario.value
+
         });
         alumnform,reset();
       });
