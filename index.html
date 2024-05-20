@@ -4,6 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        input {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #alumnos-list div {
+            background: #fff;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        #update-alumno {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <form id="alumno">
@@ -22,7 +72,7 @@
     <div id="alumnos-list"></div>
     
     <!-- Formulario de actualización -->
-    <form id="update-alumno" style="display: none;">
+    <form id="update-alumno">
         <input type="hidden" id="update-id">
         <input type="text" id="update-nombre" placeholder="NOMBRE">
         <input type="text" id="update-apellido" placeholder="APELLIDO">
@@ -39,122 +89,8 @@
     </form>
 
     <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCQmJItqEIujzTUdqHAyZNbx1UWULiqHls",
-            authDomain: "estudiantes-cbd47.firebaseapp.com",
-            projectId: "estudiantes-cbd47",
-            storageBucket: "estudiantes-cbd47.appspot.com",
-            messagingSenderId: "657399487403",
-            appId: "1:657399487403:web:51b44e1da5dc21ccd6d0ee"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        const alumnform = document.getElementById("alumno");
-        alumnform.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            await addDoc(collection(db, "Ingreso"), {
-                nombre: alumnform.nombre.value,
-                apellido: alumnform.apellido.value,
-                edad: alumnform.edad.value,
-                telefono: alumnform.telefono.value,
-                email: alumnform.email.value,
-                direccion: alumnform.direccion.value,
-                prenda: alumnform.prenda.value,
-                talla: alumnform.talla.value,
-                cedula: alumnform.cedula.value,
-                comentario: alumnform.comentario.value
-            });
-            alumnform.reset();
-        });
-
-        const alumnosList = document.getElementById("alumnos-list");
-
-        // Function to render alumnos
-        const renderAlumnos = () => {
-            onSnapshot(collection(db, "Ingreso"), (querySnapshot) => {
-                alumnosList.innerHTML = "";
-                querySnapshot.forEach((doc) => {
-                    const alumno = doc.data();
-                    const div = document.createElement("div");
-                    div.innerHTML = `
-                        <p>Nombre: ${alumno.nombre}</p>
-                        <p>Apellido: ${alumno.apellido}</p>
-                        <p>Edad: ${alumno.edad}</p>
-                        <p>Teléfono: ${alumno.telefono}</p>
-                        <p>Email: ${alumno.email}</p>
-                        <p>Dirección: ${alumno.direccion}</p>
-                        <p>Prenda: ${alumno.prenda}</p>
-                        <p>Talla: ${alumno.talla}</p>
-                        <p>Cédula: ${alumno.cedula}</p>
-                        <p>Comentario: ${alumno.comentario}</p>
-                        <button onclick="deleteAlumno('${doc.id}')">Eliminar</button>
-                        <button onclick="showUpdateForm('${doc.id}', '${alumno.nombre}', '${alumno.apellido}', '${alumno.edad}', '${alumno.telefono}', '${alumno.email}', '${alumno.direccion}', '${alumno.prenda}', '${alumno.talla}', '${alumno.cedula}', '${alumno.comentario}')">Actualizar</button>
-                        <hr>
-                    `;
-                    alumnosList.appendChild(div);
-                });
-            });
-        };
-
-        // Call renderAlumnos to initially list alumnos
-        renderAlumnos();
-
-        // Function to delete an alumno
-        window.deleteAlumno = async (id) => {
-            await deleteDoc(doc(db, "Ingreso", id));
-        };
-
-        // Function to show update form
-        window.showUpdateForm = (id, nombre, apellido, edad, telefono, email, direccion, prenda, talla, cedula, comentario) => {
-            document.getElementById("update-id").value = id;
-            document.getElementById("update-nombre").value = nombre;
-            document.getElementById("update-apellido").value = apellido;
-            document.getElementById("update-edad").value = edad;
-            document.getElementById("update-telefono").value = telefono;
-            document.getElementById("update-email").value = email;
-            document.getElementById("update-direccion").value = direccion;
-            document.getElementById("update-prenda").value = prenda;
-            document.getElementById("update-talla").value = talla;
-            document.getElementById("update-cedula").value = cedula;
-            document.getElementById("update-comentario").value = comentario;
-            document.getElementById("update-alumno").style.display = "block";
-        };
-
-        // Function to update an alumno
-        const updateForm = document.getElementById("update-alumno");
-        updateForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const id = document.getElementById("update-id").value;
-            const alumnoRef = doc(db, "Ingreso", id);
-            await updateDoc(alumnoRef, {
-                nombre: document.getElementById("update-nombre").value,
-                apellido: document.getElementById("update-apellido").value,
-                edad: document.getElementById("update-edad").value,
-                telefono: document.getElementById("update-telefono").value,
-                email: document.getElementById("update-email").value,
-                direccion: document.getElementById("update-direccion").value,
-                prenda: document.getElementById("update-prenda").value,
-                talla: document.getElementById("update-talla").value,
-                cedula: document.getElementById("update-cedula").value,
-                comentario: document.getElementById("update-comentario").value
-            });
-            updateForm.reset();
-            updateForm.style.display = "none";
-        });
-
-        // Function to cancel update
-        window.cancelUpdate = () => {
-            updateForm.reset();
-            updateForm.style.display = "none";
-        };
+        // Tu código JavaScript aquí...
     </script>
 </body>
 </html>
+
