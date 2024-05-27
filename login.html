@@ -62,21 +62,43 @@ button {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 10px;
 }
 
-button:hover {
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+}
+
+button[type="submit"]:hover {
     background-color: #0056b3;
+}
+
+button.register-btn {
+    background-color: #28a745;
+    color: #fff;
+}
+
+button.register-btn:hover {
+    background-color: #218838;
+}
+
+button.google-btn {
+    background-color: #db4437;
+    color: #fff;
+}
+
+button.google-btn:hover {
+    background-color: #c23321;
 }
 
     </style>
     <div class="login-container">
         <form class="login-form">
-            <h2>Iniciar Sesión</h2>
+            <h2>BIENVENIDO</h2>
             <div class="form-group">
                 <label for="username">Usuario</label>
                 <input type="text" id="username" name="username" required>
@@ -86,6 +108,8 @@ button:hover {
                 <input type="password" id="password" name="password" required>
             </div>
             <button type="submit">Ingresar</button>
+            <button type="button" class="register-btn">Registrarse</button>
+            <button type="button" class="google-btn">Iniciar Sesión con Google</button>
         </form>
     </div>
 </body>
