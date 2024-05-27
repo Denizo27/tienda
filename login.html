@@ -9,105 +9,104 @@
 <body>
     <style>
         * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f2f5;
-}
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+        }
 
-.login-container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-.login-form {
-    display: flex;
-    flex-direction: column;
-}
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
 
-.login-form h2 {
-    margin-bottom: 20px;
-    text-align: center;
-    color: #333;
-}
+        .login-form h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
 
-.form-group {
-    margin-bottom: 15px;
-}
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-.form-group label {
-    margin-bottom: 5px;
-    display: block;
-    color: #555;
-}
+        .form-group label {
+            margin-bottom: 5px;
+            display: block;
+            color: #555;
+        }
 
-.form-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-}
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
 
-button[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-}
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+        }
 
-button[type="submit"]:hover {
-    background-color: #0056b3;
-}
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
 
-button.register-btn {
-    background-color: #28a745;
-    color: #fff;
-}
+        button.register-btn {
+            background-color: #28a745;
+            color: #fff;
+        }
 
-button.register-btn:hover {
-    background-color: #218838;
-}
+        button.register-btn:hover {
+            background-color: #218838;
+        }
 
-button.google-btn {
-    background-color: #db4437;
-    color: #fff;
-}
+        button.google-btn {
+            background-color: #db4437;
+            color: #fff;
+        }
 
-button.google-btn:hover {
-    background-color: #c23321;
-}
-
+        button.google-btn:hover {
+            background-color: #c23321;
+        }
     </style>
     <div class="login-container">
         <form class="login-form">
             <h2>BIENVENIDO</h2>
             <div class="form-group">
                 <label for="username">Usuario</label>
-                <input type="text" id="Usuario" name="username" required>
+                <input type="text" id="usuario" name="username" required>
             </div>
             <div class="form-group">
                 <label for="password">Contraseña</label>
                 <input type="password" id="contraseña" name="password" required>
             </div>
-            <button type="submit" id="iniciar_sesion">Iniciar sesion </button>
+            <button type="submit" id="iniciar_sesion">Iniciar sesión</button>
             <button type="button" class="register-btn" id="registrarse">Registrarse</button>
             <button type="button" class="google-btn" id="google">Iniciar Sesión con Google</button>
         </form>
@@ -127,8 +126,6 @@ button.google-btn:hover {
             appId: "1:657399487403:web:51b44e1da5dc21ccd6d0ee"
         };
 
-
-
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -139,21 +136,21 @@ button.google-btn:hover {
         document.addEventListener('DOMContentLoaded', () => {
             const usuarioField = document.getElementById('usuario');
             const contraseñaField = document.getElementById('contraseña');
-            const iniciar_sesion = document.getElementById('iniciar_sesion');
-            const registrarse = document.getElementById('registrarse');
-            const google = document.getElementById('google');
+            const iniciarSesionBtn = document.getElementById('iniciar_sesion');
+            const registrarseBtn = document.getElementById('registrarse');
+            const googleBtn = document.getElementById('google');
 
-            // Iniciar sesion email
-            iniciar_sesion.addEventListener('click', (e) => {
+            // Iniciar sesión con email
+            iniciarSesionBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const usuario = usuarioField.value;
                 const contraseña = contraseñaField.value;
 
-                signInWithEmailAndPassword(auth, usuario , contraseña)
+                signInWithEmailAndPassword(auth, usuario, contraseña)
                     .then((userCredential) => {
                         const user = userCredential.user;
                         console.log('Usuario ingresado:', user);
-                        // Redirigir a pacientes.html
+                        // Redirigir a index.html
                         window.location.href = 'index.html';
                     })
                     .catch((error) => {
@@ -162,8 +159,8 @@ button.google-btn:hover {
                     });
             });
 
-            // Registrar sesion email
-            registrarse.addEventListener('click', (e) => {
+            // Registrar usuario con email
+            registrarseBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const usuario = usuarioField.value;
                 const contraseña = contraseñaField.value;
@@ -181,14 +178,14 @@ button.google-btn:hover {
                     });
             });
 
-            // Google login functionality
-                google.addEventListener('click', (e) => {
+            // Iniciar sesión con Google
+            googleBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 signInWithPopup(auth, provider)
                     .then((result) => {
                         const user = result.user;
                         console.log('Usuario ingresado con Google:', user);
-                        // Redirigir a pacientes.html
+                        // Redirigir a index.html
                         window.location.href = 'index.html';
                     })
                     .catch((error) => {
@@ -200,3 +197,4 @@ button.google-btn:hover {
     </script>
 </body>
 </html>
+
